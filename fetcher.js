@@ -1,4 +1,17 @@
 const request = require('request');
-// Async operations:
-//  make https request and wait for response
-//  AFTER request is complete take data recieved and write it to file in locel system
+const fs = require('fs');
+
+const args = process.argv.slice(2);
+const website = args[0];
+const file = args[1];
+
+request(website, (error, response, body) => {
+  if (response.statusCode === 200) {
+    fs.writeFile(file, body, err => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    });
+  }
+});
